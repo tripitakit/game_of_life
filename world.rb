@@ -10,7 +10,7 @@ class World
       @screen = screen
     end 
 
-    def random_sow(coverage_ratio)
+    def random_sow(coverage_ratio=0.1)
       population_map = []
       ((@y*@x)*coverage_ratio).to_i.times do
          is_an_empty_place = false
@@ -38,16 +38,18 @@ class World
       apply_selection_rules
       update_grid 
     end
-  
+    
+    def clear
+      initialize(@y+1,@x+1,@screen)
+    end
     
     private
+
    
       def sow(y,x) 
         return false if y > @y || x > @x
         @grid[y][x].birth
       end 
- 
-
 
       def map_neighbours
         @grid.each_with_index do |row,y|

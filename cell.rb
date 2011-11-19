@@ -38,7 +38,7 @@ class Cell
   end
 
   def set_sprite    
-    if @alive # survivor white cell 
+    if @survivor # survivor white cell 
       @image.fill(:red)
       @rect = image.make_rect   
     else # new yellow cell

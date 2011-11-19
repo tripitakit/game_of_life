@@ -46,6 +46,11 @@ class GameOfLife
 
   def make_event_hooks
     hooks = {
+      :c => :clear,
+      :r => :random,
+      :g => :glider_gun,
+      :m => :metuselah,
+      :l => :lw_spaceship,        
       :escape => :quit,
       :q => :quit,
       QuitRequested => :quit
@@ -70,7 +75,7 @@ class GameOfLife
    @world = World.new(rows, cols, @screen)
   end
   
-  
+   
   def quit
     throw :quit
   end
@@ -87,23 +92,24 @@ class GameOfLife
   
    # preset patterns definitions
 
-   def spaceships 
+   def lw_spaceship
       @world.place lightweight_spaceship, 14, 0
-      @world.place glider, 0,0  
    end  
 
    def metuselah 
       @world.place f_pentomino, 60, 80
    end
 
-   def gosper_glider_gun
-     @world.place gosper_glider_gun, 2, 2
+   def glider_gun
+     @world.place gosper_glider_gun, 20, 20
    end
 
+   def clear
+     @world.clear
+   end
 
-
-   def random(coverage_ratio)
-     @world.random_sow(coverage_ratio)
+   def random
+     @world.random_sow
    end   
 
    def four_glider_crash
@@ -114,8 +120,6 @@ class GameOfLife
   end     
 end  
  
- 
-
 
 # Start main loop 
 GameOfLife.new(:four_glider_crash, :metuselah).run!
