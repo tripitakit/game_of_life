@@ -50,7 +50,8 @@ class GameOfLife
       :r => :random,
       :g => :glider_gun,
       :m => :metuselah,
-      :l => :lw_spaceship,        
+      :l => :lw_spaceship,
+      :f => :four_glider_crash        
       :escape => :quit,
       :q => :quit,
       QuitRequested => :quit
