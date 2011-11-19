@@ -16,13 +16,14 @@ $CELL_SIZE = 5
 class GameOfLife  
   include EventHandler::HasEventHandler
   
-  def initialize(preset)
+  def initialize(*presets)
     make_screen
     make_clock
     make_queue
     make_event_hooks
     make_world
-    send preset
+    presets.each { |preset| send ( preset ) }
+
   end   
    
   def run!
@@ -92,7 +93,7 @@ class GameOfLife
    end  
 
    def metuselah 
-      @world.place f_pentomino, 15, 57
+      @world.place f_pentomino, 60, 80
    end
 
    def gosper_glider_gun
@@ -107,9 +108,9 @@ class GameOfLife
 
    def four_glider_crash
      @world.place glider,10,10
-     @world.place y_mirror(glider), 10, 150 
-     @world.place x_mirror(glider), 110, 10
-     @world.place xy_mirror(glider), 150, 150
+     @world.place y_mirror(glider), 10, 100 
+     @world.place x_mirror(glider), 100, 10
+     @world.place xy_mirror(glider), 100, 100
   end     
 end  
  
@@ -117,7 +118,7 @@ end
 
 
 # Start main loop 
-GameOfLife.new(:four_glider_crash).run!
+GameOfLife.new(:four_glider_crash, :metuselah).run!
 
 # Clean up
 Rubygame.quit() 
