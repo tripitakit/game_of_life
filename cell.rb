@@ -1,13 +1,17 @@
-require 'rainbow'
-class Cell
-  attr_accessor :neighbours, :alive, :survivor, :body  
+class Cell 
+  
+  include Sprites::Sprite
+  include EventHandler::HasEventHandler
+  
+  
+  attr_accessor :neighbours, :alive, :survivor, :image, :rect
+
   @@now = 0
   @@deads = 0
   @@born = 0
   
-  def initialize (body = "o")
-    @body = body
-    @empty = ' ' * body.size
+  def initialize
+    @image=Surface.new([$CELL_SIZE,$CELL_SIZE])     
   end
    
   def self.count
@@ -33,11 +37,14 @@ class Cell
     @@born += 1
   end
 
-  def to_s
-    @alive ? living_cell : @empty
+  def set_sprite    
+    if @alive # survivor white cell 
+      @image.fill(:red)
+      @rect = image.make_rect   
+    else # new yellow cell
+      @image.fill(:yellow)
+      @rect = image.make_rect
+    end
   end
 
-  def living_cell
-    @survivor ? @body.color(:red) : @body.color(:magenta)  
-  end
 end
