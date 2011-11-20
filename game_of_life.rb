@@ -13,7 +13,8 @@ include Patterns
  
 $SCREEN_X = 800
 $SCREEN_Y = 600
-$CELL_SIZE = 5
+$CELL_SIZE = 5 
+
 $world_rows = ($SCREEN_Y / $CELL_SIZE) - ($SCREEN_Y / $CELL_SIZE)/10 - $CELL_SIZE * 2
 $world_cols = ($SCREEN_X / $CELL_SIZE) - ($SCREEN_X / $CELL_SIZE)/10 - $CELL_SIZE * 2 
  
@@ -27,8 +28,10 @@ class GameOfLife
     make_world
     presets.each { |preset| send ( preset ) }
   end   
-   
-  def run!
+  
+  # main loop with infinite loop 
+  def run! 
+    @running = true
     catch([:quit, :edit_mode]) do
       loop do
         step
@@ -41,7 +44,7 @@ class GameOfLife
 
   def make_event_hooks
     hooks = {
-      :space => :edit_mode,  
+      :space => :freeze_unfreeze,  
       :b => :line_breeder,
       :c => :clear,
       :r => :random,
@@ -51,7 +54,7 @@ class GameOfLife
       :f => :four_glider_crash,        
       :escape => :quit,
       :q => :quit,
-      QuitRequested => :quit
+      QuitRequested => :quit,
     }
  
     make_magic_hooks( hooks )
@@ -60,7 +63,7 @@ class GameOfLife
   def make_queue
     @queue = EventQueue.new()
     @queue.enable_new_style_events
-    @queue.ignore = [MouseMoved]
+    # @queue.ignore = [MouseMoved]
   end   
        
   
@@ -73,18 +76,32 @@ class GameOfLife
    @world = World.new($world_rows, $world_cols, @screen)
   end
   
-   
+  
+  def freeze_unfreeze
+    @running = @running ? false  : true
+  end  
+      
   def quit
     throw :quit
   end
+  
+  def resume
+    @running = true
+  end
      
+  
+  # main game step
   def step
     @screen.fill(:black)
+    
     @queue.each do |event|
       handle(event)
     end
-    @world.tick!
-    @screen.update()
+    
+    if @running
+        @world.tick! 
+        @screen.update()
+    end
   end
   
    # preset pattern builders

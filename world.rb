@@ -21,7 +21,8 @@ class World
          end
          sow(y, x)  
          population_map << [y,x]
-        end                   
+        end
+        pupulation_map = nil                   
     end 
 
     def place(pattern, world_y, world_x)
