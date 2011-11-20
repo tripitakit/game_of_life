@@ -1,6 +1,6 @@
 Game of Life                
 ============
-Ruby (1.9.2) / rubygame (with SDL 1.2.14) 
+Ruby (1.9.2) / rubygame (with SDL-1.2.14 + SDL_ttf-2.0.10) 
 
 My Conway's Game of Life.
 

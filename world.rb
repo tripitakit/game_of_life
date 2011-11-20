@@ -108,8 +108,8 @@ class World
       def update_grid 
         @grid.each_with_index do |row, y|
           row.each_with_index do |cell, x|     
-            screen_x = (x+1)*$CELL_SIZE + x-$CELL_SIZE
-            screen_y = (y+1)*$CELL_SIZE + y-$CELL_SIZE
+            screen_x = (x+1)*$CELL_SIZE + x - $CELL_SIZE
+            screen_y = (y+1)*$CELL_SIZE + y - $CELL_SIZE
             if cell.alive   
               cell.set_sprite 
               cell.rect.x = screen_x

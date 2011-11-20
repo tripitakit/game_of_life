@@ -5,18 +5,18 @@ include Rubygame::Events
 include Rubygame::EventActions
 include Rubygame::EventTriggers  
 
-require './world'
-require './cell'
-require './patterns.rb'
+require File.join(File.dirname(__FILE__),'world.rb')
+require File.join(File.dirname(__FILE__),'cell')
+require File.join(File.dirname(__FILE__),'patterns.rb')
 
 include Patterns        
  
 $world_rows = 60
-$world_cols = 80
+$world_cols = 80  
 
-$CELL_SIZE = 9 
-$SCREEN_X = $world_cols * ($CELL_SIZE) + $world_cols
-$SCREEN_Y = $world_rows * ($CELL_SIZE) + $world_rows
+$CELL_SIZE = 10 
+$SCREEN_X = $world_cols * ($CELL_SIZE+1)
+$SCREEN_Y = $world_rows * ($CELL_SIZE+1)
 
  
 class GameOfLife  
@@ -24,6 +24,7 @@ class GameOfLife
   
   def initialize(*presets)
     make_screen
+    make_hud
     make_queue
     make_event_hooks
     make_world
@@ -73,6 +74,10 @@ class GameOfLife
   def make_screen
      @screen = Screen.open( [$SCREEN_X, $SCREEN_Y] )
      @screen.title = "3PI::RubyGameOfLife"
+  end 
+  
+  def make_hud
+    @hud = Hud.new (@screen)
   end
   
   def make_world 
@@ -92,16 +97,15 @@ class GameOfLife
   
   def finger_of_god (event)
       col = screen2world event.pos[0] 
-      row = screen2world event.pos[1]
-      puts "row #{row} ,  col #{col}"
-      @world.touch(row,col) 
+      row = screen2world event.pos[1]   
       
+      puts "r #{row}, c #{col}"
+      @world.touch(row,col)       
       @screen.update()
   end  
   
   def screen2world(screen_pos)
-    world_pos = screen_pos / ($CELL_SIZE + 1)
-    
+    world_pos = screen_pos / ($CELL_SIZE + 1)    
   end
       
   def quit
@@ -123,13 +127,13 @@ class GameOfLife
     end
     
     if @running
-        @world.tick! 
-        @screen.update()
-    end
+        @world.tick!
+        @hud.update @world.generation, Cell.count[:living_now]
+        @hud.draw 
+        @screen.update() 
+    end 
+    
   end 
-  
-  
-  
   
    # preset pattern builders
    def lw_spaceship
@@ -162,8 +166,33 @@ class GameOfLife
   def breeder
     @world.place butterfly, $world_rows/2, ($world_cols - butterfly.width)/2
   end   
-end  
- 
+end 
+
+
+class Hud
+  def initialize (screen)
+    TTF.setup
+    filename = File.join(File.dirname(__FILE__), 'AndaleMono.ttf')
+    @font_size = 16
+    @cosmic_font = TTF.new filename, @font_size
+    @status_bar = ""
+    @screen = screen
+  end
+  
+  def update (generations, living_cell_counter)  
+      @status_bar = "Generation ##{format_number(generations)} : Living cells ##{format_number(living_cell_counter)}" 
+  end
+  
+  def format_number(num)
+      "0" * (6-num.to_s.size) + num.to_s
+  end
+  
+  def draw
+    status_bar = @cosmic_font.render @status_bar, true, [123,67,255]
+    status_bar.blit @screen, [($SCREEN_X - status_bar.w)/2 ,3]
+  end
+
+end
 
 # Start main loop 
 GameOfLife.new().run!
