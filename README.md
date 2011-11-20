@@ -8,15 +8,15 @@ Toroidal implementation of Conway's Game of Life.
 in-game keyboard triggers 
 -------------------------
 
-b: place a nice breeder
-c: clear the world gird 
-f: test four gliders crash
-g: place a glider gun
-l: place a lightweight spaceship
-m: place a f-pentomino (metuselah)
-r: random cell pattern (1/10 of gird size)
-escape, q: quit the game
-space: pause -> enter 'edit mode' / resume the game.
+* b: place a nice breeder
+* c: clear the world gird 
+* f: test four gliders crash
+* g: place a glider gun
+* l: place a lightweight spaceship
+* m: place a f-pentomino (metuselah)
+* r: random cell pattern (1/10 of gird size)
+* escape, q: quit the game
+* space: pause -> enter 'edit mode' / resume the game.
    
 Edit mode
 ---------
