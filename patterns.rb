@@ -1,4 +1,6 @@
-module Patterns
+module Patterns   
+  
+# blueprints for common patterns
 
   def block  
   ['11',
@@ -75,7 +77,22 @@ module Patterns
   ]        
   end  
   
-  # mirroring  
+  # breeders
+  def butterfly
+    ['111111110111110001110000001111111011111'] 
+  end
+  
+  # pattern size methods
+  def width 
+    self[0].size
+  end
+  
+  def height
+    self.size
+  end
+  
+  # pattern mirroring methods
+  
   def y_mirror(pattern)
     mirrored = []
     pattern.each do |row|

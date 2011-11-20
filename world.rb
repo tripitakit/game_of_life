@@ -1,6 +1,6 @@
-class World 
+class World
+   
   attr_accessor :y, :x, :grid, :generation
-
   
     def initialize(y, x, screen)
       @grid = Array.new(y) { Array.new(x) { Cell.new }  }
@@ -44,7 +44,6 @@ class World
     end
     
     private
-
    
       def sow(y,x) 
         return false if y > @y || x > @x
@@ -99,12 +98,14 @@ class World
 
       def update_grid 
         @grid.each_with_index do |row, y|
-          row.each_with_index do |cell, x|
-            if cell.alive        
-                cell.set_sprite 
-                cell.rect.x = (x+1)*$CELL_SIZE
-                cell.rect.y = (y+1)*$CELL_SIZE
-                cell.draw (@screen)
+          row.each_with_index do |cell, x|     
+            grid_x = (x)*$CELL_SIZE+x
+            grid_y = (y)*$CELL_SIZE+y
+            if cell.alive   
+              cell.set_sprite 
+              cell.rect.x = grid_x
+              cell.rect.y = grid_y
+              cell.draw (@screen)
             end
           end
         end 
