@@ -100,7 +100,7 @@ class GameOfLife
   end  
   
   def screen2world(screen_pos)
-    world_pos = screen_position / ($CELL_SIZE + 1)
+    world_pos = screen_pos / ($CELL_SIZE + 1)
     
   end
       
