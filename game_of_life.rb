@@ -45,7 +45,7 @@ class GameOfLife
   def make_event_hooks
     hooks = {
       :space => :freeze_unfreeze,  
-      :b => :line_breeder,
+      :b => :breeder,
       :c => :clear,
       :r => :random,
       :g => :glider_gun,
@@ -132,7 +132,7 @@ class GameOfLife
      @world.place xy_mirror(glider), $world_rows - glider.height - 1, $world_cols - glider.width - 1 
   end  
   
-  def line_breeder
+  def breeder
     @world.place butterfly, $world_rows/2, ($world_cols - butterfly.width)/2
   end   
 end  

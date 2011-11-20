@@ -79,7 +79,11 @@ module Patterns
   
   # breeders
   def butterfly
-    ['111111110111110001110000001111111011111'] 
+    ['111',
+     '010',
+     '010',
+     '010',
+     '010'] 
   end
   
   # pattern size methods
