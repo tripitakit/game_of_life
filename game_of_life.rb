@@ -11,12 +11,13 @@ require './patterns.rb'
 
 include Patterns        
  
-$SCREEN_X = 800
-$SCREEN_Y = 600
-$CELL_SIZE = 5 
+$world_rows = 60
+$world_cols = 80
 
-$world_rows = ($SCREEN_Y / $CELL_SIZE) - ($SCREEN_Y / $CELL_SIZE)/10 - $CELL_SIZE * 2
-$world_cols = ($SCREEN_X / $CELL_SIZE) - ($SCREEN_X / $CELL_SIZE)/10 - $CELL_SIZE * 2 
+$CELL_SIZE = 9 
+$SCREEN_X = $world_cols * ($CELL_SIZE) + $world_cols
+$SCREEN_Y = $world_rows * ($CELL_SIZE) + $world_rows
+
  
 class GameOfLife  
   include EventHandler::HasEventHandler
@@ -32,7 +33,7 @@ class GameOfLife
   # main loop with infinite loop 
   def run! 
     @running = true
-    catch([:quit, :edit_mode]) do
+    catch([:quit]) do
       loop do
         step
       end
@@ -52,9 +53,10 @@ class GameOfLife
       :m => :metuselah,
       :l => :lw_spaceship,
       :f => :four_glider_crash,        
+      :mouse_left => :finger_of_god,
       :escape => :quit,
       :q => :quit,
-      QuitRequested => :quit,
+      QuitRequested => :quit
     }
  
     make_magic_hooks( hooks )
@@ -63,7 +65,8 @@ class GameOfLife
   def make_queue
     @queue = EventQueue.new()
     @queue.enable_new_style_events
-    # @queue.ignore = [MouseMoved]
+    @queue.ignore = [MouseMoved, MousePressed]
+    
   end   
        
   
@@ -78,8 +81,30 @@ class GameOfLife
   
   
   def freeze_unfreeze
-    @running = @running ? false  : true
+   if @running 
+     @running = false
+     @queue.ignore -= [MouseMoved, MousePressed]
+   else
+     @running = true 
+     @queue.ignore = [MouseMoved, MousePressed]
+   end
+  end 
+  
+  def finger_of_god (event)
+      col = screen2world event.pos[0] 
+      row = screen2world event.pos[1]
+      puts "row #{row} ,  col #{col}"
+      @world.touch(row,col) 
+      
+      @screen.update()
   end  
+  
+  def screen2world(screen_pos)
+    screen_x = (x+1)*$CELL_SIZE + x 
+
+    world_pos = screen_position / ($CELL_SIZE + 1)
+    
+  end
       
   def quit
     throw :quit
@@ -90,9 +115,10 @@ class GameOfLife
   end
      
   
+  
   # main game step
   def step
-    @screen.fill(:black)
+    @screen.fill([12,24,36])
     
     @queue.each do |event|
       handle(event)
@@ -102,7 +128,10 @@ class GameOfLife
         @world.tick! 
         @screen.update()
     end
-  end
+  end 
+  
+  
+  
   
    # preset pattern builders
    def lw_spaceship

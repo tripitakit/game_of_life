@@ -40,9 +40,17 @@ class World
       update_grid 
     end
     
+    
+    def touch(row,col)
+      cell = @grid[row][col]
+         cell.alive ? cell.die : cell.birth 
+         update_grid
+    end
+    
     def clear
       initialize(@y+1,@x+1,@screen)
     end
+    
     
     private
    
@@ -100,12 +108,12 @@ class World
       def update_grid 
         @grid.each_with_index do |row, y|
           row.each_with_index do |cell, x|     
-            grid_x = (x)*$CELL_SIZE+x
-            grid_y = (y)*$CELL_SIZE+y
+            screen_x = (x+1)*$CELL_SIZE + x
+            screen_y = (y+1)*$CELL_SIZE + y
             if cell.alive   
               cell.set_sprite 
-              cell.rect.x = grid_x
-              cell.rect.y = grid_y
+              cell.rect.x = screen_x
+              cell.rect.y = screen_y
               cell.draw (@screen)
             end
           end
