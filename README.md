@@ -2,7 +2,7 @@ Game of Life
 ============
 Ruby (1.9.2) / rubygame (with SDL 1.2.14) 
 
-Toroidal implementation of Conway's Game of Life.
+My Conway's Game of Life.
 
 
 in-game keyboard triggers 
@@ -20,10 +20,17 @@ in-game keyboard triggers
    
 Edit mode
 ---------
-When paused hitting 'spacebar' key the game enter 'edit' mode:
-click on the grid to place/remove cells.
-Hitting 'spacebar' again resume the world evolution.
+Hit spacebar key to enter edit mode.
+Click to place/remove cells.
+Hit spacebar to resume world's evolution.
 
+
+Coming features
+----------------
+* Time machine
+* copy/cut/paste patterns
+* help screen
+* splash screen
 
 
 
