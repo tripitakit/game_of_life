@@ -1,7 +1,8 @@
 module Patterns   
   
 # blueprints for common patterns
-
+  
+  # still life
   def block  
   ['11',
    '11']
@@ -84,6 +85,28 @@ module Patterns
      '010',
      '010',
      '010'] 
+  end  
+  
+  # puffers
+  def puffer_train 
+    ['00010',
+     '00001',
+     '10001',
+     '01111',
+     '0',
+     '0',
+     '0',
+     '100',
+     '011',
+     '001',
+     '001',
+     '010',
+     '0',
+     '0',
+     '00010',
+     '00001',
+     '10001',
+     '01111' ]
   end
   
   # pattern size methods

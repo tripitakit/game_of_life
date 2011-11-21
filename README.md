@@ -16,6 +16,7 @@ in-game keyboard triggers
 * l: place a lightweight spaceship
 * m: place a f-pentomino (metuselah)
 * r: random cell pattern (1/10 of gird size) 
+* t: place a puffer-train
 * escape, q: quit the game
 * space: pause -> enter 'edit mode' / resume the game.
    

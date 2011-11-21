@@ -11,9 +11,9 @@ require File.join(File.dirname(__FILE__),'patterns.rb')
 
 include Patterns        
  
-$world_rows = 45
-$world_cols = 70
-$CELL_SIZE = 15
+$world_rows = 60
+$world_cols = 90
+$CELL_SIZE = 10
 $SCREEN_X = $world_cols * ($CELL_SIZE+1)
 $SCREEN_Y = $world_rows * ($CELL_SIZE+1)
 
@@ -55,7 +55,8 @@ class GameOfLife
       :g => :glider_gun,
       :m => :metuselah,
       :l => :lw_spaceship,
-      :f => :four_glider_crash,        
+      :f => :four_glider_crash,
+      :t => :train,        
       :mouse_left => :toggle_life,
       :escape => :quit,
       :q => :quit,
@@ -187,7 +188,11 @@ class GameOfLife
   
   def breeder
     @world.place butterfly, $world_rows/2, ($world_cols - butterfly.width)/2
-  end   
+  end 
+  
+  def train
+    @world.place puffer_train , ($world_rows-puffer_train.height)/2, 20
+  end  
 end 
 
 
@@ -218,7 +223,7 @@ class Hud
 end
 
 # Start main loop 
-GameOfLife.new(:glider_gun).run!
+GameOfLife.new(:train).run!
 
 # Clean up
 Rubygame.quit() 
