@@ -11,10 +11,9 @@ require File.join(File.dirname(__FILE__),'patterns.rb')
 
 include Patterns        
  
-$world_rows = 60
-$world_cols = 80  
-
-$CELL_SIZE = 10 
+$world_rows = 45
+$world_cols = 70
+$CELL_SIZE = 15
 $SCREEN_X = $world_cols * ($CELL_SIZE+1)
 $SCREEN_Y = $world_rows * ($CELL_SIZE+1)
 
@@ -24,6 +23,7 @@ class GameOfLife
   
   def initialize(*presets)
     make_screen
+    make_clock
     make_hud
     make_queue
     make_event_hooks
@@ -46,7 +46,9 @@ class GameOfLife
 
   def make_event_hooks
     hooks = {
-      :space => :freeze_unfreeze,  
+      :space => :toggle_run,
+      :a => :hi_framerate, 
+      :z => :low_framerate,
       :b => :breeder,
       :c => :clear,
       :r => :random,
@@ -54,7 +56,7 @@ class GameOfLife
       :m => :metuselah,
       :l => :lw_spaceship,
       :f => :four_glider_crash,        
-      :mouse_left => :finger_of_god,
+      :mouse_left => :toggle_life,
       :escape => :quit,
       :q => :quit,
       QuitRequested => :quit
@@ -63,12 +65,7 @@ class GameOfLife
     make_magic_hooks( hooks )
   end
        
-  def make_queue
-    @queue = EventQueue.new()
-    @queue.enable_new_style_events
-    @queue.ignore = [MouseMoved, MousePressed]
-    
-  end   
+
        
   
   def make_screen
@@ -76,16 +73,38 @@ class GameOfLife
      @screen.title = "3PI::RubyGameOfLife"
   end 
   
+  def make_clock
+     @clock = Clock.new()
+     @clock.target_framerate = 15
+     @clock.calibrate
+     @clock.enable_tick_events
+   end
+
   def make_hud
     @hud = Hud.new (@screen)
   end
   
-  def make_world 
-   @world = World.new($world_rows, $world_cols, @screen)
+  def make_queue
+    @queue = EventQueue.new()
+    @queue.enable_new_style_events
+    @queue.ignore = [MouseMoved, MousePressed]
   end
   
+  def make_world 
+   @world = World.new($world_rows, $world_cols, @screen)
+  end 
   
-  def freeze_unfreeze
+  def hi_framerate  
+    @clock.target_framerate = 30
+    @clock.calibrate   
+  end
+ 
+  def low_framerate  
+    @clock.target_framerate = 3
+    @clock.calibrate   
+  end
+  
+  def toggle_run
    if @running 
      @hud.status_bar = "GAME PAUSED :: EDIT MODE"  
      @hud.draw
@@ -97,12 +116,12 @@ class GameOfLife
    end
   end 
   
-  def finger_of_god (event)
+  def toggle_life (event)
       col = screen2world event.pos[0] 
       row = screen2world event.pos[1]   
       
       puts "r #{row}, c #{col}"
-      @world.touch(row,col)       
+      @world.toggle_life(row,col)       
       @screen.update()
   end  
   
@@ -130,6 +149,7 @@ class GameOfLife
     
     if @running
         @world.tick!
+        @queue << @clock.tick
         @hud.update @world.generation
         @hud.draw
         @screen.update() 
@@ -198,7 +218,7 @@ class Hud
 end
 
 # Start main loop 
-GameOfLife.new().run!
+GameOfLife.new(:glider_gun).run!
 
 # Clean up
 Rubygame.quit() 

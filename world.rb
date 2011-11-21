@@ -41,7 +41,7 @@ class World
     end
     
     
-    def touch(row,col)
+    def toggle_life(row,col)
       cell = @grid[row][col]
          cell.alive ? cell.die : cell.birth 
          update_grid

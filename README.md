@@ -7,14 +7,15 @@ My Conway's Game of Life.
 
 in-game keyboard triggers 
 -------------------------
-
-* b: place a nice breeder
-* c: clear the world gird 
-* f: test four gliders crash
+* a: run at 30 fps
+* z: run at 3 fps
+* b: place a breeder pattern
+* c: clear the world 
+* f: four gliders crash
 * g: place a glider gun
 * l: place a lightweight spaceship
 * m: place a f-pentomino (metuselah)
-* r: random cell pattern (1/10 of gird size)
+* r: random cell pattern (1/10 of gird size) 
 * escape, q: quit the game
 * space: pause -> enter 'edit mode' / resume the game.
    
