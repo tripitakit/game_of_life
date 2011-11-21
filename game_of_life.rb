@@ -87,6 +87,8 @@ class GameOfLife
   
   def freeze_unfreeze
    if @running 
+     @hud.status_bar = "GAME PAUSED :: EDIT MODE"  
+     @hud.draw
      @running = false
      @queue.ignore -= [MouseMoved, MousePressed]
    else
@@ -128,8 +130,8 @@ class GameOfLife
     
     if @running
         @world.tick!
-        @hud.update @world.generation, Cell.count[:living_now]
-        @hud.draw 
+        @hud.update @world.generation
+        @hud.draw
         @screen.update() 
     end 
     
@@ -169,26 +171,27 @@ class GameOfLife
 end 
 
 
-class Hud
+class Hud 
+  attr_accessor :status_bar
   def initialize (screen)
     TTF.setup
     filename = File.join(File.dirname(__FILE__), 'AndaleMono.ttf')
     @font_size = 16
-    @cosmic_font = TTF.new filename, @font_size
+    @font = TTF.new filename, @font_size
     @status_bar = ""
     @screen = screen
   end
   
-  def update (generations, living_cell_counter)  
-      @status_bar = "Generation ##{format_number(generations)} : Living cells ##{format_number(living_cell_counter)}" 
+  def update (generations)  
+      @status_bar = "Generation ##{format_number(generations)}" 
   end
   
-  def format_number(num)
+  def format_number (num)
       "0" * (6-num.to_s.size) + num.to_s
   end
   
-  def draw
-    status_bar = @cosmic_font.render @status_bar, true, [123,67,255]
+  def draw(color=:yellow)
+    status_bar = @font.render @status_bar, true, color
     status_bar.blit @screen, [($SCREEN_X - status_bar.w)/2 ,3]
   end
 

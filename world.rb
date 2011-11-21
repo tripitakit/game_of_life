@@ -48,7 +48,8 @@ class World
     end
     
     def clear
-      initialize(@y+1,@x+1,@screen)
+      @grid = Array.new(@y+1) { Array.new(@x+1) { Cell.new }  } 
+      @generation = 0 
     end
     
     

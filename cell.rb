@@ -6,8 +6,8 @@ class Cell
   attr_accessor :neighbours, :alive, :survivor, :image, :rect
   
   
-  @@survivor_color = :green
-  @@newborn_color = :cyan 
+  @@survivor_color = [95,0,190]
+  @@newborn_color = [190,0,95] 
   @@living_now = 0
   @@deads = 0
   @@born = 0
