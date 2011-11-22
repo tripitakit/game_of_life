@@ -6,15 +6,16 @@ class Cell
   attr_accessor :neighbours, :alive, :survivor, :image, :rect
   
   
-  @@survivor_color = [95,0,190]
-  @@newborn_color = [190,0,95] 
+  @@survivor_color = [[255,255,255],[205,205,50],[155,155,100],[105,105,150],[55,55,200],[05,05,250]]
+  @@newborn_color = :white 
   @@living_now = 0
   @@deads = 0
   @@born = 0
   
   
   def initialize
-    @image=Surface.new([$CELL_SIZE,$CELL_SIZE])     
+    @image=Surface.new([$CELL_SIZE,$CELL_SIZE]) 
+    @age=0     
   end
    
   def self.count
@@ -25,12 +26,14 @@ class Cell
     @alive = false
     @survivor = false  
     @@living_now -= 1  
-    @@deads += 1
+    @@deads += 1 
+    @age = 0
       
   end 
 
   def survive 
-    @survivor = true
+    @survivor = true 
+    @age += 1
   end
 
   def birth
@@ -41,8 +44,9 @@ class Cell
   end
 
   def set_sprite
-      if @survivor # red survivor cell 
-        @image.fill(@@survivor_color)
+      if @survivor # red survivor cell   
+        @age = @age > 5 ? 5 : @age
+        @image.fill(@@survivor_color[@age-1])
       else #  magenta new cell
         @image.fill(@@newborn_color)
       end
