@@ -6,7 +6,7 @@ class Cell
   attr_accessor :neighbours, :alive, :survivor, :image, :rect
   
   
-  @@survivor_color = [[255,255,255],[205,205,50],[155,155,100],[105,105,150],[55,55,200],[05,05,250]]
+  @@survivor_color = [[255,255,0],[205,205,50],[155,155,100],[105,105,150],[55,55,200],[05,05,250]]
   @@newborn_color = :white 
   @@living_now = 0
   @@deads = 0
