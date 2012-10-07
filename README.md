@@ -27,13 +27,6 @@ Click to place/remove cells.
 Hit spacebar to resume world's evolution.
 
 
-Coming features
-----------------
-* Time machine
-* copy/cut/paste patterns
-* help screen
-* splash screen
-
 
 
 
